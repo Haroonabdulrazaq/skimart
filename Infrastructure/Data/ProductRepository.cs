@@ -9,6 +9,20 @@ public class ProductRepository(StoreContext context) : IProductRepository
 {
 private readonly StoreContext context = context;
 
+    public async Task<IReadOnlyList<string>> GetBrandsAsync()
+    {
+        return await context.Products.Select(x => x.Brand)
+            .Distinct()
+            .ToListAsync();
+    }
+
+    public async Task<IReadOnlyList<string>> GetTypesAsync()
+    {
+       return await context.Products.Select(x => x.Type)
+        .Distinct()
+        .ToListAsync();
+    }
+
     void IProductRepository.AddProduct(Product product)
     {
         context.Products.Add(product);

@@ -74,6 +74,18 @@ public class ProductsController(IProductRepository productRepository) : Controll
     return BadRequest("Error updating th product");
  }
 
+ [HttpGet("brands")]
+ public async Task<ActionResult<IReadOnlyList<string>>> GetBrands()
+ {
+  return Ok(await productRepository.GetBrandsAsync());
+ }
+ 
+  [HttpGet("types")]
+ public async Task<ActionResult<IReadOnlyList<string>>> GetTypes()
+ {
+  return Ok(await productRepository.GetTypesAsync());
+ }
+
    private bool ProductExists(int id) {
     return productRepository.ProductExists(id);
   }
