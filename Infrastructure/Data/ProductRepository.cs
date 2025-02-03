@@ -38,9 +38,26 @@ private readonly StoreContext context = context;
         return await context.Products.FindAsync(id);
     }
 
-    async Task<IReadOnlyList<Product>> IProductRepository.GetProductsAsync()
+    async Task<IReadOnlyList<Product>> IProductRepository.GetProductsAsync(string? brand, string? type, string? sort)
     {
-       return await context.Products.ToListAsync();
+        var query = context.Products.AsQueryable();
+        if(!string.IsNullOrWhiteSpace(brand))
+        {
+            query = query.Where(x => x.Brand == brand);
+        }
+        if(!string.IsNullOrWhiteSpace(type))
+        {
+            query = query.Where(x => x.Type == type);
+        }
+
+        query = sort switch 
+        {
+            "priceAsc" => query.OrderBy(x => x.Price),
+            "priceDesc" => query.OrderByDescending(x => x.Price),
+            _ => query.OrderBy(x => x.Name)
+        };
+
+       return await query.ToListAsync();
     }
 
     bool IProductRepository.ProductExists(int id)
