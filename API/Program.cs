@@ -14,6 +14,7 @@ builder.Services.AddDbContext<StoreContext>(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(IGenericRepository<>));
 
 var app = builder.Build();
 
