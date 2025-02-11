@@ -80,14 +80,14 @@ public class ProductsController(IGenericRepository<Product> repo) : ControllerBa
   public async Task<ActionResult<IReadOnlyList<string>>> GetBrands()
   {
     //  TODO: Implement method
-    return Ok();
+    return Ok(await repo.ListAllAsync());
   }
 
   [HttpGet("types")]
   public async Task<ActionResult<IReadOnlyList<string>>> GetTypes()
   {
     //  TODO: Implement method
-    return Ok();
+    return Ok(await repo.ListAllAsync());
   }
 
   private bool ProductExists(int id)
